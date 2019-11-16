@@ -18,7 +18,7 @@ class Header extends Component {
           TodoList
           <input
             className="header-input"
-            placeHolder="Todo"
+            placeholder="Todo"
             data-test="input"
             value={value}
             onChange={this.handleInputChange}

@@ -13,7 +13,7 @@ exports[`Header 渲染正常 1`] = `
       data-test="input"
       onChange={[Function]}
       onKeyUp={[Function]}
-      placeHolder="Todo"
+      placeholder="Todo"
       value=""
     />
   </div>

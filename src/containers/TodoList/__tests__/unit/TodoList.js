@@ -21,11 +21,14 @@ it("addUndoItem被执行的时候 undoList应该新增内容", () => {
   const wrapper = shallow(<TodoList />);
   wrapper.instance().addUndoItem("学习React");
   expect(wrapper.state("undoList").length).toBe(1);
-  expect(wrapper.state("undoList")[0]).toBe("学习React");
+  expect(wrapper.state("undoList")[0]).toEqual({
+    status: "div",
+    value: "学习React"
+  });
   //这里需要注意 instance表示TodoList本身的某个函数 名字是addUndoItem
 });
 
-it("TodoList 应该给UndoList传递一个List 的数据 以及 删除元素的方法", () => {
+it("TodoList 应该给UndoList传递一个List的数据,删除元素和修改元素的方法 以及失去焦点 以及valueChange", () => {
   const wrapper = shallow(<TodoList />);
   const UndoList = wrapper.find("UndoList");
   // expect(UndoList.prop("deleteItem")).toBe(
@@ -34,6 +37,9 @@ it("TodoList 应该给UndoList传递一个List 的数据 以及 删除元素的�
 
   expect(UndoList.prop("List")).toBeTruthy();
   expect(UndoList.prop("deleteItem")).toBeTruthy();
+  expect(UndoList.prop("changeStatus")).toBeTruthy();
+  expect(UndoList.prop("handleBlur")).toBeTruthy();
+  expect(UndoList.prop("valueChange")).toBeTruthy();
 
   //这里需要注意 instance表示TodoList本身的某个函数 名字是addUndoItem
 });
@@ -41,8 +47,82 @@ it("TodoList 应该给UndoList传递一个List 的数据 以及 删除元素的�
 it("Delete Item被执行时 undolist内容应该被删除", () => {
   const wrapper = shallow(<TodoList />);
   wrapper.setState({
-    undoList: ["学习Jest", "dell", "lee"]
+    undoList: [
+      {
+        status: "div",
+        value: "学习Jest"
+      },
+      {
+        status: "div",
+        value: "学习TDD"
+      }
+    ]
   });
   wrapper.instance().deleteItem(1); //模拟执行该函数！！！
-  expect(wrapper.state("undoList")).toEqual(["学习Jest", "lee"]);
+  expect(wrapper.state("undoList")).toEqual([
+    {
+      status: "div",
+      value: "学习Jest"
+    }
+  ]);
+});
+
+it("Change被执行时 undolist的status应该被修改", () => {
+  const wrapper = shallow(<TodoList />);
+  wrapper.setState({
+    undoList: [
+      {
+        status: "div",
+        value: "学习Jest"
+      },
+      {
+        status: "div",
+        value: "学习TDD"
+      }
+    ]
+  });
+  wrapper.instance().changeStatus(1); //模拟执行该函数！！！
+  expect(wrapper.state("undoList")[1]).toEqual({
+    status: "input",
+    value: "学习TDD"
+  });
+});
+
+it("handleBlur被执行 undolist的status应该被修改", () => {
+  const wrapper = shallow(<TodoList />);
+  wrapper.setState({
+    undoList: [
+      {
+        status: "input",
+        value: "学习Jest"
+      },
+      {
+        status: "div",
+        value: "学习TDD"
+      }
+    ]
+  });
+  wrapper.instance().handleBlur(0); //模拟执行该函数！！！
+  expect(wrapper.state("undoList")[0]).toEqual({
+    status: "div",
+    value: "学习Jest"
+  });
+});
+
+it("valueChange undolist内容应该被修改", () => {
+  const wrapper = shallow(<TodoList />);
+  const newValue = "不再学习Jest";
+  wrapper.setState({
+    undoList: [
+      {
+        status: "input",
+        value: "学习Jest"
+      }
+    ]
+  });
+  wrapper.instance().valueChange(0, newValue); //模拟执行该函数！！！
+  expect(wrapper.state("undoList")[0]).toEqual({
+    status: "input",
+    value: "不再学习Jest"
+  });
 });
