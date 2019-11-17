@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UndoList render 1`] = `
+exports[`FinishedList render 1`] = `
 <div
   className="undo-list"
 >
   <div
     className="undo-list-title"
   >
-    Processing
+    Finished
     <div
       className="undo-list-count"
       data-test="count"

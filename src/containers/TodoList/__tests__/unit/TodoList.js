@@ -3,32 +3,32 @@ import { shallow } from "enzyme";
 
 import TodoList from "../../index";
 
-it("TodoList 初始化列表为空", () => {
+it("TodoList init, List is empty", () => {
   const wrapper = shallow(<TodoList />);
   expect(wrapper.state("undoList")).toEqual([]);
 });
 
-it("TodoList 应该给header传递一个 undoList 内容的方法", () => {
+it("TodoList pass addUndoItem to header component", () => {
   const wrapper = shallow(<TodoList />);
   const Header = wrapper.find("Header");
   expect(Header.prop("addUndoItem")).toBeTruthy();
   //这里需要注意 instance表示TodoList本身的某个函数 名字是addUndoItem
 });
 
-it("addUndoItem被执行的时候 undoList应该新增内容", () => {
+it("addUndoItem been called, undoList should add new item.", () => {
   //在这里我们遵循一个原则 能用todolist本身的东西解决 就一定要用
   //我们不去判断回车之类的 只是说判断传回来的函数运行后 list内容是否会增加？
   const wrapper = shallow(<TodoList />);
-  wrapper.instance().addUndoItem("学习React");
+  wrapper.instance().addUndoItem("First thing I need to do");
   expect(wrapper.state("undoList").length).toBe(1);
   expect(wrapper.state("undoList")[0]).toEqual({
     status: "div",
-    value: "学习React"
+    value: "First thing I need to do"
   });
   //这里需要注意 instance表示TodoList本身的某个函数 名字是addUndoItem
 });
 
-it("TodoList 应该给UndoList传递一个List的数据,删除元素和修改元素的方法 以及失去焦点 以及valueChange", () => {
+it("TodoList pass to UndoList: List, deleteItem, changeStatus, handleBlur, valueChange and addIntoFinishedList", () => {
   const wrapper = shallow(<TodoList />);
   const UndoList = wrapper.find("UndoList");
   // expect(UndoList.prop("deleteItem")).toBe(
@@ -40,21 +40,22 @@ it("TodoList 应该给UndoList传递一个List的数据,删除元素和修改元
   expect(UndoList.prop("changeStatus")).toBeTruthy();
   expect(UndoList.prop("handleBlur")).toBeTruthy();
   expect(UndoList.prop("valueChange")).toBeTruthy();
+  expect(UndoList.prop("addIntoFinishedList")).toBeTruthy();
 
   //这里需要注意 instance表示TodoList本身的某个函数 名字是addUndoItem
 });
 
-it("Delete Item被执行时 undolist内容应该被删除", () => {
+it("Delete Item been called, item should be deleted in undolist", () => {
   const wrapper = shallow(<TodoList />);
   wrapper.setState({
     undoList: [
       {
         status: "div",
-        value: "学习Jest"
+        value: "First"
       },
       {
         status: "div",
-        value: "学习TDD"
+        value: "Second"
       }
     ]
   });
@@ -62,67 +63,117 @@ it("Delete Item被执行时 undolist内容应该被删除", () => {
   expect(wrapper.state("undoList")).toEqual([
     {
       status: "div",
-      value: "学习Jest"
+      value: "First"
     }
   ]);
 });
 
-it("Change被执行时 undolist的status应该被修改", () => {
+it("ChangeStatus been called,  status should be changed", () => {
   const wrapper = shallow(<TodoList />);
   wrapper.setState({
     undoList: [
       {
         status: "div",
-        value: "学习Jest"
+        value: "First"
       },
       {
         status: "div",
-        value: "学习TDD"
+        value: "Second"
       }
     ]
   });
   wrapper.instance().changeStatus(1); //模拟执行该函数！！！
   expect(wrapper.state("undoList")[1]).toEqual({
     status: "input",
-    value: "学习TDD"
+    value: "Second"
   });
 });
 
-it("handleBlur被执行 undolist的status应该被修改", () => {
+it("handleBlur been called, status should be changed", () => {
   const wrapper = shallow(<TodoList />);
   wrapper.setState({
     undoList: [
       {
         status: "input",
-        value: "学习Jest"
+        value: "First"
       },
       {
         status: "div",
-        value: "学习TDD"
+        value: "Second"
       }
     ]
   });
   wrapper.instance().handleBlur(0); //模拟执行该函数！！！
   expect(wrapper.state("undoList")[0]).toEqual({
     status: "div",
-    value: "学习Jest"
+    value: "First"
   });
 });
 
-it("valueChange undolist内容应该被修改", () => {
+it("valueChange been called, value should be changed", () => {
   const wrapper = shallow(<TodoList />);
-  const newValue = "不再学习Jest";
+  const newValue = "Third";
   wrapper.setState({
     undoList: [
       {
         status: "input",
-        value: "学习Jest"
+        value: "First"
       }
     ]
   });
   wrapper.instance().valueChange(0, newValue); //模拟执行该函数！！！
   expect(wrapper.state("undoList")[0]).toEqual({
     status: "input",
-    value: "不再学习Jest"
+    value: "Third"
   });
+});
+
+it("TodoList pass a list and deleteItem() to FinishedList ", () => {
+  const wrapper = shallow(<TodoList />);
+  const FinishedList = wrapper.find("FinishedList");
+  expect(FinishedList.prop("List")).toBeTruthy();
+  expect(FinishedList.prop("deleteItem")).toBeTruthy();
+});
+
+it("DeletedItem been called, item should be deleted", () => {
+  const wrapper = shallow(<TodoList />);
+  wrapper.setState({
+    finishedList: ["First", "Second"]
+  });
+  const index = 1;
+  wrapper.instance().deleteFinished(index);
+  expect(wrapper.state("finishedList")).toEqual(["First"]);
+});
+
+it("AddIntoFinished been called,  item should be removed from undoList and insert into finishedList", () => {
+  const wrapper = shallow(<TodoList />);
+  wrapper.setState({
+    undoList: [
+      {
+        status: "div",
+        value: "First"
+      },
+      {
+        status: "div",
+        value: "Second"
+      },
+      {
+        status: "div",
+        value: "Third"
+      }
+    ],
+    finishedList: []
+  });
+  wrapper.instance().addIntoFinishedList(1); //模拟执行该函数！！！
+  expect(wrapper.state("undoList")).toEqual([
+    {
+      status: "div",
+      value: "First"
+    },
+    {
+      status: "div",
+      value: "Third"
+    }
+  ]);
+  expect(wrapper.state("finishedList")).toEqual(["Second"]);
 });

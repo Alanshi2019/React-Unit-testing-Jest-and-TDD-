@@ -3,12 +3,12 @@ import { shallow } from "enzyme";
 import UndoList from "../../components/UndoList";
 import { findTestWrapper } from "../../../../utils/testUtils";
 
-it("UndoList 渲染正常", () => {
+it("UndoList render", () => {
   const wrapper = shallow(<UndoList List={[]} />);
   expect(wrapper).toMatchSnapshot();
 }); // 这个测试的目的在于 相当于是锁死了UI 只要发生一点变化 就会报错
 
-it("UndoList列表初始化 count为0 列表无内容", () => {
+it("UndoList init count = 0, list is empty", () => {
   const wrapper = shallow(<UndoList List={[]} />);
   const countElem = findTestWrapper(wrapper, "count");
   const listElem = findTestWrapper(wrapper, "list-item");
@@ -16,17 +16,17 @@ it("UndoList列表初始化 count为0 列表无内容", () => {
   expect(listElem.length).toEqual(0);
 });
 
-it("UndoList列表有内容时 count变化 长度变化", () => {
+it("UndoList is not empty count changing, list changing", () => {
   const wrapper = shallow(
     <UndoList
       List={[
         {
           status: "div",
-          value: "学习Jest"
+          value: "First"
         },
         {
           status: "div",
-          value: "学习TDD"
+          value: "Second"
         }
       ]}
     />
@@ -37,28 +37,29 @@ it("UndoList列表有内容时 count变化 长度变化", () => {
   expect(listElem.length).toEqual(2);
 });
 
-it("UndoList列表有内容时 存在的删除按钮", () => {
+it("UndoList is not empty, checkbox and removeButton exist", () => {
   const wrapper = shallow(
     <UndoList
       List={[
         {
           status: "div",
-          value: "学习Jest"
+          value: "First"
         },
         {
           status: "div",
-          value: "学习TDD"
+          value: "Second"
         }
       ]}
     />
   );
 
   const deleteElem = findTestWrapper(wrapper, "delete-item");
-
+  const checkElem = findTestWrapper(wrapper, "check-item");
   expect(deleteElem.length).toEqual(2);
+  expect(checkElem.length).toEqual(2);
 });
 
-it("UndoList列表有内容时 点击按钮调用删除方法", () => {
+it("UndoList is not empty, onClick check", () => {
   const fn = jest.fn();
   const index = 1;
   const wrapper = shallow(
@@ -67,21 +68,21 @@ it("UndoList列表有内容时 点击按钮调用删除方法", () => {
       List={[
         {
           status: "div",
-          value: "学习Jest"
+          value: "First"
         },
         {
           status: "div",
-          value: "学习TDD"
+          value: "Second"
         }
       ]}
     />
   );
   const deleteElem = findTestWrapper(wrapper, "delete-item");
-  deleteElem.at(index).simulate("click");
+  deleteElem.at(index).simulate("click", { stopPropagation: () => {} }); //这里为了匹配之前e.stopPropagation 因为传递的e没有那个方法 所以自己定义一个假的
   expect(fn).toHaveBeenLastCalledWith(index);
 });
 
-it("当某一项被点击时，触发执行changeStatus函数", () => {
+it("Item been Clicked，changeStatus been called", () => {
   const fn = jest.fn();
   const index = 1;
   const wrapper = shallow(
@@ -90,11 +91,11 @@ it("当某一项被点击时，触发执行changeStatus函数", () => {
       List={[
         {
           status: "div",
-          value: "学习Jest"
+          value: "First"
         },
         {
           status: "div",
-          value: "学习TDD"
+          value: "Second"
         }
       ]}
     />
@@ -104,7 +105,7 @@ it("当某一项被点击时，触发执行changeStatus函数", () => {
   expect(fn).toHaveBeenLastCalledWith(index);
 });
 
-it("当某一项状态是input时，展示输入框", () => {
+it("Item status: input，inputline showed", () => {
   const wrapper = shallow(
     <UndoList
       List={[
@@ -123,7 +124,7 @@ it("当某一项状态是input时，展示输入框", () => {
   expect(inputItems.length).toBe(1);
 });
 
-it("当某一个input失去焦点时，触发执行handleBlur方法", () => {
+it("Inputline onblur，handleBlur been called", () => {
   const fn = jest.fn();
   const index = 0;
   const wrapper = shallow(
@@ -132,11 +133,11 @@ it("当某一个input失去焦点时，触发执行handleBlur方法", () => {
       List={[
         {
           status: "input",
-          value: "学习Jest"
+          value: "First"
         },
         {
           status: "div",
-          value: "学习TDD"
+          value: "Second"
         }
       ]}
     />
@@ -147,7 +148,7 @@ it("当某一个input失去焦点时，触发执行handleBlur方法", () => {
   expect(fn).toHaveBeenLastCalledWith(index);
 });
 
-it("当修改item内容时，触发执行valueChange", () => {
+it("Modiy item，valueChange been called", () => {
   const fn = jest.fn();
   const index = 0;
   const wrapper = shallow(
@@ -156,20 +157,43 @@ it("当修改item内容时，触发执行valueChange", () => {
       List={[
         {
           status: "input",
-          value: "学习Jest"
+          value: "First"
         },
         {
           status: "div",
-          value: "学习TDD"
+          value: "Second"
         }
       ]}
     />
   );
   const inputElem = findTestWrapper(wrapper, "input");
   inputElem.simulate("change", {
-    target: { value: "学习TDD" }
+    target: { value: "Second" }
   }); //e.target.value注意一定要匹配格式！！！！
 
   // inputElem.at(index).simulate("blur"); 表示元素失去焦点 应该被用在所有地方而不是某特定元素
-  expect(fn).toHaveBeenLastCalledWith(index, "学习TDD");
+  expect(fn).toHaveBeenLastCalledWith(index, "Second");
+});
+
+it("UndoList is not empty, click checkbox to call addFinishedList", () => {
+  const fn = jest.fn();
+  const index = 1;
+  const wrapper = shallow(
+    <UndoList
+      addIntoFinishedList={fn}
+      List={[
+        {
+          status: "div",
+          value: "First"
+        },
+        {
+          status: "div",
+          value: "Second"
+        }
+      ]}
+    />
+  );
+  const checkElem = findTestWrapper(wrapper, "check-item");
+  checkElem.at(index).simulate("click", { stopPropagation: () => {} }); //这里为了匹配之前e.stopPropagation 因为传递的e没有那个方法 所以自己定义一个假的
+  expect(fn).toHaveBeenLastCalledWith(index);
 });

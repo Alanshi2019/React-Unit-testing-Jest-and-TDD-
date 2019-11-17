@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import Header from "./components/Header";
 import UndoList from "./components/UndoList";
+import FinishedList from "./components/FinishedList";
 import "./style.css";
 
 class TodoList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      undoList: []
+      undoList: [],
+      finishedList: []
     };
     this.addUndoItem = this.addUndoItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.changeStatus = this.changeStatus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.valueChange = this.valueChange.bind(this);
+    this.deleteFinished = this.deleteFinished.bind(this);
+    this.addIntoFinishedList = this.addIntoFinishedList.bind(this);
   }
   render() {
     return (
@@ -25,6 +29,11 @@ class TodoList extends Component {
           deleteItem={this.deleteItem}
           handleBlur={this.handleBlur}
           valueChange={this.valueChange}
+          addIntoFinishedList={this.addIntoFinishedList}
+        />
+        <FinishedList
+          List={this.state.finishedList}
+          deleteItem={this.deleteFinished}
         />
       </div>
     );
@@ -42,7 +51,7 @@ class TodoList extends Component {
   }
 
   deleteItem(index) {
-    const newState = [...this.state.undoList];
+    const newState = this.state.undoList;
     newState.splice(index, 1); //删除一项
     this.setState({ undoList: newState });
   }
@@ -61,6 +70,18 @@ class TodoList extends Component {
     const newList = this.state.undoList;
     newList[index].value = value;
     this.setState({ undoList: newList });
+  }
+  deleteFinished(index) {
+    const newState = this.state.finishedList;
+    newState.splice(index, 1); //删除一项
+    this.setState({ finishedList: newState });
+  }
+  addIntoFinishedList(index) {
+    const newUndoList = this.state.undoList;
+    const newValue = newUndoList[index].value;
+    const newFinishedList = [...this.state.finishedList, newValue];
+    newUndoList.splice(index, 1);
+    this.setState({ undoList: newUndoList, finishedList: newFinishedList });
   }
 }
 

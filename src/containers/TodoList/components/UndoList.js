@@ -7,7 +7,8 @@ class UndoList extends Component {
       deleteItem,
       changeStatus,
       handleBlur,
-      valueChange
+      valueChange,
+      addIntoFinishedList
     } = this.props;
     return (
       <div className="undo-list">
@@ -27,6 +28,14 @@ class UndoList extends Component {
                 onClick={() => changeStatus(index)}
                 key={index}
               >
+                <span
+                  data-test="check-item"
+                  className="checkbox"
+                  onClick={e => {
+                    e.stopPropagation();
+                    addIntoFinishedList(index);
+                  }}
+                ></span>
                 {item.status === "div" ? (
                   item.value
                 ) : (
@@ -40,9 +49,10 @@ class UndoList extends Component {
                   ></input>
                 )}
                 <span
+                  className="undo-item-remove"
                   data-test="delete-item"
                   onClick={e => {
-                    e && e.stopPropagation();
+                    e.stopPropagation();
                     deleteItem(index);
                   }}
                 >
