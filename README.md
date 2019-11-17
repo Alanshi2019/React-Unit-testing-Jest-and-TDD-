@@ -31,6 +31,8 @@ Project Structure:
 
 
 
+![Code Coverage](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic%202.png);
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
