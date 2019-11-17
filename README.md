@@ -1,31 +1,4 @@
-├── src
-│   ├── App.js
-│   ├── App.test.js
-│   ├── containers
-│   │   └── TodoList
-│   │   ├── **tests**
-│   │   │   └── unit
-│   │   │   ├── FinishedList.js
-│   │   │   ├── Header.js
-│   │   │   ├── TodoList.js
-│   │   │   ├── UndoList.js
-│   │   │   └── **snapshots**
-│   │   │   ├── FinishedList.js.snap
-│   │   │   ├── Header.js.snap
-│   │   │   └── UndoList.js.snap
-│   │   ├── components
-│   │   │   ├── FinishedList.js
-│   │   │   ├── Header.js
-│   │   │   └── UndoList.js
-│   │   ├── index.js
-│   │   └── style.css
-│   ├── index.js
-│   └── utils
-│   ├── testSetup.js
-│   └── testUtils.js
-├── textExample.js
-├── yarn-error.log
-└── yarn.lock
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
