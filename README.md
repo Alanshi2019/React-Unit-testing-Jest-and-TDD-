@@ -1,17 +1,23 @@
 Project Structure:
-![Project Structure:](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/a1.png);
+
+![Project Structure:](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/a1.png)
 
 Code Coverage:
-![Code Coverage](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic%202.png);
+
+![Code Coverage](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic%202.png)
 
 Unit test example:
+
 ![Unit test example](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic3.png);
 
 Unit test detail:
-![Unit test detail](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic%204.png);
+
+![Unit test detail](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic%204.png)
+
 
 UI:
-![UI](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic.png);
+
+![UI](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic.png)
 
 
 
