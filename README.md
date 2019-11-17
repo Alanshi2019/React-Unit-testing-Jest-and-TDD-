@@ -1,37 +1,18 @@
-Project Structure:
 
-├── src
-│   ├── App.js
-│   ├── App.test.js
-│   ├── containers
-│   │   └── TodoList
-│   │       ├── __tests__
-│   │       │   └── unit
-│   │       │       ├── FinishedList.js
-│   │       │       ├── Header.js
-│   │       │       ├── TodoList.js
-│   │       │       ├── UndoList.js
-│   │       │       └── __snapshots__
-│   │       │           ├── FinishedList.js.snap
-│   │       │           ├── Header.js.snap
-│   │       │           └── UndoList.js.snap
-│   │       ├── components
-│   │       │   ├── FinishedList.js
-│   │       │   ├── Header.js
-│   │       │   └── UndoList.js
-│   │       ├── index.js
-│   │       └── style.css
-│   ├── index.js
-│   └── utils
-│       ├── testSetup.js
-│       └── testUtils.js
-├── textExample.js
-├── yarn-error.log
-└── yarn.lock
-
+![Project Structure:](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/a1.png);
 
 
 ![Code Coverage](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic%202.png);
+
+
+![Unit test example](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic3.png);
+
+
+![Unit test detail](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic%204.png);
+
+
+![UI](https://github.com/Alanshi2019/React-Unit-testing-Jest-and-TDD-/blob/lesson7/img/Pasted%20Graphic.png);
+
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
