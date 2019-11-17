@@ -6,7 +6,7 @@ import { findTestWrapper } from "../../../../utils/testUtils";
 it("UndoList render", () => {
   const wrapper = shallow(<UndoList List={[]} />);
   expect(wrapper).toMatchSnapshot();
-}); // 这个测试的目的在于 相当于是锁死了UI 只要发生一点变化 就会报错
+});
 
 it("UndoList init count = 0, list is empty", () => {
   const wrapper = shallow(<UndoList List={[]} />);
